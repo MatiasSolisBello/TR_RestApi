@@ -1,6 +1,7 @@
 package com.turismo.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,11 @@ public class DepartRest {
 	@GetMapping("/listar")
 	public List<Depart> listarDepart(){
 		return departDao.findAll();
+	}
+	
+	@GetMapping("listar/{id_depart}")
+	public Optional<Depart> listarById(@PathVariable("id_depart") Integer id_depart) {
+		return departDao.findById(id_depart);
 	}
 	
 	@DeleteMapping("/eliminar/{id_depart}")
