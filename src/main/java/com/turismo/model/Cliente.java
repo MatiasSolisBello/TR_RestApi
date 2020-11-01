@@ -1,14 +1,28 @@
 package com.turismo.model;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
 @Table(name = "Cliente")
-public class Cliente {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
+
+
+public class Cliente implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	
 	@Id
 	private int rut;
 	@Column
@@ -19,6 +33,9 @@ public class Cliente {
 	private String telefono;
 	@Column
 	private String password;
+	
+	@OneToMany(mappedBy = "depart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Reserva> reserva;
 	
 	public Cliente() {
 			
@@ -72,6 +89,15 @@ public class Cliente {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public Set<Reserva> getReserva() {
+		return reserva;
+	}
+
+	public void setReserva(Set<Reserva> reserva) {
+		this.reserva = reserva;
+	}
+	
 	
 	
 }

@@ -32,6 +32,7 @@ public class DepartRest {
 		return departDao.findAll();
 	}
 	
+	
 	@GetMapping("listar/{id_depart}")
 	public Optional<Depart> listarById(@PathVariable("id_depart") Integer id_depart) {
 		return departDao.findById(id_depart);

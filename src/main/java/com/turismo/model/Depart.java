@@ -1,14 +1,30 @@
 package com.turismo.model;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "Departamento")
-public class Depart {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
+
+public class Depart implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_depart;
 	@Column
 	private int precio;
@@ -19,13 +35,16 @@ public class Depart {
 	@Column
 	private String descripcion;
 	@Column
-	private String foto;
+	private byte[] foto;
+	
+	@OneToMany(mappedBy = "depart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Reserva> reserva;
 	
 	public Depart() {
 		
 	}
 
-	public Depart(int id_depart, int precio, String estado, String ciudad, String descripcion, String foto) {
+	public Depart(int id_depart, int precio, String estado, String ciudad, String descripcion, byte[] foto) {
 		super();
 		this.id_depart = id_depart;
 		this.precio = precio;
@@ -75,13 +94,22 @@ public class Depart {
 		this.descripcion = descripcion;
 	}
 
-	public String getFoto() {
+	public byte[] getFoto() {
 		return foto;
 	}
 
-	public void setFoto(String foto) {
+	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}
+
+	public Set<Reserva> getReserva() {
+		return reserva;
+	}
+
+	public void setReserva(Set<Reserva> reserva) {
+		this.reserva = reserva;
+	}
+	
 	
 	
 }
