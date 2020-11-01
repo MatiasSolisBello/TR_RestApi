@@ -1,10 +1,14 @@
 # Rest Api with Spring Boot (INCONCLUSE)
 
 ## You need instaled
-+ Spring ide for for [here](https://spring.io/tools)
++ Spring ide from [here](https://spring.io/tools)
++ Oracle Database. The project database [is here](https://github.com/MatiasSolisBello/TR_RestApi/blob/main/RESPALDO.sql)
 
 ## This project include:
 + CRUD for Api Rest in diferents tables
+
+### State of tables:
+![](https://github.com/MatiasSolisBello/TR_RestApi/blob/main/Captura.PNG)
 
 ## Guides:
 
