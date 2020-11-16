@@ -2,7 +2,7 @@
 
 ## You need instaled
 + Spring ide from [here](https://spring.io/tools)
-+ Oracle Database. The project database [is here](https://github.com/MatiasSolisBello/TR_RestApi/blob/main/RESPALDO.sql)
++ Oracle Database. The project database [is here](https://github.com/MatiasSolisBello/TR_RestApi/blob/main/TurismoDatabase.sql)
 
 ## This project include:
 + CRUD for Api Rest in diferents tables
