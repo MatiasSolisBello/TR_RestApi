@@ -64,6 +64,35 @@ CREATE TABLE servicios (
 
 ALTER TABLE servicios ADD CONSTRAINT servicios_pk PRIMARY KEY ( id_servicio );
 
+CREATE TABLE checkin (
+    id           NUMBER(5, 5) NOT NULL,
+    condiciones  VARCHAR2(100) NOT NULL,
+    id_reserva   NUMBER(10) NOT NULL
+);
+
+ALTER TABLE checkin ADD CONSTRAINT checkin_pk PRIMARY KEY ( id );
+
+CREATE TABLE checkout (
+    id          NUMBER(5, 5) NOT NULL,
+    estado      VARCHAR2(100) NOT NULL,
+    multa       NUMBER,
+    problemas   VARCHAR2(100) NOT NULL,
+    id_reserva  NUMBER(10) NOT NULL
+);
+
+ALTER TABLE checkout ADD CONSTRAINT checkout_pk PRIMARY KEY ( id );
+
+--------------------------------------------------
+        --LLAVES FORANEAS
+--------------------------------------------------
+ALTER TABLE checkin
+    ADD CONSTRAINT checkin_reserva_fk FOREIGN KEY ( id_reserva )
+        REFERENCES reserva ( id_reserva );
+
+ALTER TABLE checkout
+    ADD CONSTRAINT checkout_reserva_fk FOREIGN KEY ( id_reserva )
+        REFERENCES reserva ( id_reserva );
+        
 ALTER TABLE reserva
     ADD CONSTRAINT reserva_cliente_fk FOREIGN KEY ( rut )
         REFERENCES cliente ( rut );
@@ -76,6 +105,9 @@ ALTER TABLE reserva
     ADD CONSTRAINT reserva_servicios_fk FOREIGN KEY ( id_servicio )
         REFERENCES servicios ( id_servicio );
 
+--------------------------------------------------
+        --AUTO INCREMENTABLES
+--------------------------------------------------
 
 --AUTO INCREMENT DEPARTAMENTO
 CREATE SEQUENCE depart_seq START WITH 1 INCREMENT BY 1;
@@ -90,15 +122,15 @@ SELECT depart_seq.nextval INTO :NEW.ID_DEPART FROM dual;
 END;
 
 INSERT INTO DEPARTAMENTO( PRECIO, ESTADO, CIUDAD, DESCRIPCION) VALUES
-(20000, 'DISPONIBLE', 'VALDIVIA', '2 BAÑOS, 2 HABITACIONES');
+(20000, 'DISPONIBLE', 'VALDIVIA', '2 BAÃ‘OS, 2 HABITACIONES');
 
 INSERT INTO DEPARTAMENTO( PRECIO, ESTADO, CIUDAD, DESCRIPCION) VALUES
-(30000, 'DISPONIBLE', 'VALDIVIA', '2 BAÑOS, 4 HABITACIONES');
+(30000, 'DISPONIBLE', 'VALDIVIA', '2 BAÃ‘OS, 4 HABITACIONES');
 
 INSERT INTO DEPARTAMENTO( PRECIO, ESTADO, CIUDAD, DESCRIPCION) VALUES
-(50000, 'EN REPARACION', 'VALDIVIA', '3 BAÑOS, 5 HABITACIONES');
+(50000, 'EN REPARACION', 'VALDIVIA', '3 BAÃ‘OS, 5 HABITACIONES');
 
---AUTO INCREMENT servicios
+--AUTO INCREMENT SERVICIOS
 CREATE SEQUENCE servicios_seq START WITH 1 INCREMENT BY 1;
 
 CREATE OR REPLACE TRIGGER servicios_trigger
@@ -140,6 +172,30 @@ INSERT INTO ADMIN(RUT, NOMBRE, CORREO, PASSWORD) VALUES
 INSERT INTO CLIENTE(RUT, NOMBRE, CORREO, TELEFONO, PASSWORD) VALUES
 ('190229626', 'German Acevedo', 'ger.acevedo@deathmail.com',57947395, '202cb962ac59075b964b07152d234b70');
 
-INSERT INTO RESERVA ( PRECIO_TOTAL, DESCRIPCION, FECHA_LLEGADA, FECHA_SALIDA, CLIENTE_RUT, DEPARTAMENTO_DEPART_ID, SERVICIO_SERVICIO_ID) VALUES 
-('5000', 'Incluye servicio', TO_DATE('2020-09-14', 'YYYY-MM-DD'), 
-TO_DATE('2020-09-18 ', 'YYYY-MM-DD '), '190229626', '2', '2');
+
+--------------------------------------------------
+        --CREAR DATOS EN RESERVA 
+--------------------------------------------------
+--AUTO INCREMENT CHECKIN
+CREATE SEQUENCE CHECKIN_SEQ START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER CHECKIN_trigger
+BEFORE INSERT
+ON CHECKIN
+REFERENCING NEW AS NEW
+FOR EACH ROW
+BEGIN
+SELECT CHECKIN_seq.nextval INTO :NEW.ID FROM dual;
+END;
+
+--AUTO INCREMENT CHECKOUT
+CREATE SEQUENCE CHECKOUT_SEQ START WITH 1 INCREMENT BY 1;
+
+CREATE OR REPLACE TRIGGER CHECKOUT_trigger
+BEFORE INSERT
+ON CHECKOUT
+REFERENCING NEW AS NEW
+FOR EACH ROW
+BEGIN
+SELECT CHECKOUT_seq.nextval INTO :NEW.ID FROM dual;
+END;
