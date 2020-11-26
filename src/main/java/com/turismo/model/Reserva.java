@@ -2,170 +2,116 @@ package com.turismo.model;
 
 
 import java.time.LocalDate;
-import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Reserva")
+
 public class Reserva {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id_reserva;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	
+    @NotNull
 	@Column
-	private int precio_total;
-	@Column
+	private int precio;
+	
+    @NotNull
+    @Column
 	private String descripcion;
-	@Column
-	private LocalDate  fecha_llegada;
-	@Column
-	private LocalDate  fecha_salida;
-	@Column
+	
+    @NotNull
+    @Column
+	private LocalDate llegada;
+	
+    @NotNull
+    @Column
+	private LocalDate salida;
+	
+    @NotNull
+    @Column
 	private String pago;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false  )
-	@JoinColumn(name = "rut", nullable=false)
-	@JsonIgnore
-    private Cliente cliente;
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false  )
-	@JoinColumn(name = "id_servicio", nullable=false)
-	@JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "servicio_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Servicio servicio;
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false  )
-	@JoinColumn(name = "id_depart", nullable=false)
-	@JsonIgnore
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "departamento_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Depart depart;
-	
-	@OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Checkin> checkin;
-	
-	@OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Checkout> checkout;
-
-	public Reserva() {
-		
-	}
-
-	public Reserva(int id_reserva, int precio_total, String descripcion, LocalDate fecha_llegada,
-			LocalDate fecha_salida, String pago, Cliente cliente, Servicio servicio, Depart depart,
-			Set<Checkin> checkin, Set<Checkout> checkout) {
-		super();
-		this.id_reserva = id_reserva;
-		this.precio_total = precio_total;
-		this.descripcion = descripcion;
-		this.fecha_llegada = fecha_llegada;
-		this.fecha_salida = fecha_salida;
-		this.pago = pago;
-		this.cliente = cliente;
-		this.servicio = servicio;
-		this.depart = depart;
-		this.checkin = checkin;
-		this.checkout = checkout;
-	}
-
-	public int getId_reserva() {
-		return id_reserva;
-	}
-
-	public void setId_reserva(int id_reserva) {
-		this.id_reserva = id_reserva;
-	}
-
-	public int getPrecio_total() {
-		return precio_total;
-	}
-
-	public void setPrecio_total(int precio_total) {
-		this.precio_total = precio_total;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public LocalDate getFecha_llegada() {
-		return fecha_llegada;
-	}
-
-	public void setFecha_llegada(LocalDate fecha_llegada) {
-		this.fecha_llegada = fecha_llegada;
-	}
-
-	public LocalDate getFecha_salida() {
-		return fecha_salida;
-	}
-
-	public void setFecha_salida(LocalDate fecha_salida) {
-		this.fecha_salida = fecha_salida;
-	}
-
-	public String getPago() {
-		return pago;
-	}
-
-	public void setPago(String pago) {
-		this.pago = pago;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Servicio getServicio() {
-		return servicio;
-	}
-
-	public void setServicio(Servicio servicio) {
-		this.servicio = servicio;
-	}
-
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "usuario_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private User user;
+    
+    //---------------------------------------
+    //            GETTER AND SETTER
+    //--------------------------------------- 
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public int getPrecio() {
+        return precio;
+    }
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    public LocalDate getLlegada() {
+        return llegada;
+    }
+    public void setLlegada(LocalDate llegada) {
+        this.llegada = llegada;
+    }
+    public LocalDate getSalida() {
+        return salida;
+    }
+    public void setSalida(LocalDate salida) {
+        this.salida = salida;
+    }
+    public String getPago() {
+        return pago;
+    }
+    public void setPago(String pago) {
+        this.pago = pago;
+    }
+    public Servicio getServicio() {
+        return servicio;
+    }
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
+    }
 	public Depart getDepart() {
 		return depart;
 	}
-
 	public void setDepart(Depart depart) {
 		this.depart = depart;
 	}
-
-	public Set<Checkin> getCheckin() {
-		return checkin;
+	public User getUser() {
+		return user;
 	}
-
-	public void setCheckin(Set<Checkin> checkin) {
-		this.checkin = checkin;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
-	public Set<Checkout> getCheckout() {
-		return checkout;
-	}
-
-	public void setCheckout(Set<Checkout> checkout) {
-		this.checkout = checkout;
-	}
-
-	
-	
-	
+    
 }

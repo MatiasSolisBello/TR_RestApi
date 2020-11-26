@@ -1,93 +1,57 @@
 package com.turismo.model;
 
-import java.io.Serializable;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "Servicios")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
-public class Servicio implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+@Table(name = "Servicio")
+public class Servicio{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id_servicio;
-	@Column
+	private Long id;
+	
+    @NotNull
+    @Size(max = 100)
+    @Column
 	private String nombre;
-	@Column
+    
+    @NotNull
+    @Size(max = 100)
+    @Column
 	private String descripcion;
-	@Column
+    
+    @NotNull
+    @Column
 	private int precio;
-	
-	@OneToMany(mappedBy = "servicio", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Reserva> reserva;
-	
-	public Servicio() {
-		
+    
+    //---------------------------------------
+    //            GETTER AND SETTER
+    //---------------------------------------
+    public Long getId() {
+		return id;
 	}
-
-	public Servicio(int id_servicio, String nombre, String descripcion, int precio) {
-		super();
-		this.id_servicio = id_servicio;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.precio = precio;
+	public void setId(Long id) {
+		this.id = id;
 	}
-
-	public int getId_servicio() {
-		return id_servicio;
-	}
-
-	public void setId_servicio(int id_servicio) {
-		this.id_servicio = id_servicio;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
+    
+    public String getNombre() {
+        return nombre;
+    }
+    
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public int getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(int precio) {
-		this.precio = precio;
-	}
-
-	public Set<Reserva> getReserva() {
-		return reserva;
-	}
-
-	public void setReserva(Set<Reserva> reserva) {
-		this.reserva = reserva;
-	}
-	
-	
-
+        this.nombre = nombre;
+    }
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    public int getPrecio() {
+        return precio;
+    }
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
 }
