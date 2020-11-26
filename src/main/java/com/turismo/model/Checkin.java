@@ -16,5 +16,36 @@ public class Checkin  {
     @Column
 	private String condiciones;
 	
-	//FALTA RESERVA ONE TO ONE
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "reserva_id", nullable = false)
+    private Reserva reserva;
+	
+	//---------------------------------------
+    //            GETTER AND SETTER
+    //---------------------------------------
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getCondiciones() {
+		return condiciones;
+	}
+
+	public void setCondiciones(String condiciones) {
+		this.condiciones = condiciones;
+	}
+
+	public Reserva getReserva() {
+		return reserva;
+	}
+
+	public void setReserva(Reserva reserva) {
+		this.reserva = reserva;
+	}
+	
 }

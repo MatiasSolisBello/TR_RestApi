@@ -56,6 +56,16 @@ public class Reserva {
     @JsonIgnore
     private User user;
     
+    @OneToOne(fetch = FetchType.LAZY,
+    cascade =  CascadeType.ALL,
+    mappedBy = "reserva")
+    private Checkin checkin;
+    
+    @OneToOne(fetch = FetchType.LAZY,
+    cascade =  CascadeType.ALL,
+    mappedBy = "reserva")
+    private Checkout checkout;
+    
     //---------------------------------------
     //            GETTER AND SETTER
     //--------------------------------------- 

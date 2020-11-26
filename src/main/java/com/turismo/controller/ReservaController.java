@@ -92,6 +92,7 @@ public class ReservaController {
     //------------------------------------------------
     //            CRUD RESERVA - DEPARTAMENTO
     //------------------------------------------------
+    
     @GetMapping("/depart/{departId}/reserva")
     public Page<Reserva> getAllReservaBydepartId
     (@PathVariable (value = "departId") 
