@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Reserva {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
     @NotNull
@@ -55,16 +54,7 @@ public class Reserva {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
-    
-    @OneToOne(fetch = FetchType.LAZY,
-    cascade =  CascadeType.ALL,
-    mappedBy = "reserva")
-    private Checkin checkin;
-    
-    @OneToOne(fetch = FetchType.LAZY,
-    cascade =  CascadeType.ALL,
-    mappedBy = "reserva")
-    private Checkout checkout;
+   
     
     //---------------------------------------
     //            GETTER AND SETTER

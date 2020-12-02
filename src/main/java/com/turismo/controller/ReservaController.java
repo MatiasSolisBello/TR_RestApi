@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turismo.exception.ResourceNotFoundException;
@@ -32,16 +33,24 @@ public class ReservaController {
     @Autowired
     private DepartRepository departRepository;
     
-    //------------------------------------------------
-    //            CRUD RESERVA - SERVICIO
-    //------------------------------------------------
-    
     @GetMapping("/reserva")
     public List<Reserva> listarReserva(){
         return reservaRepository.findAll();
     }
     
+    @DeleteMapping("/reserva/{id}")
+	public void eliminarReserva(@PathVariable("id") Long id) {
+    	reservaRepository.deleteById(id);
+	}
     
+    @RequestMapping("/count/reserva")
+    private Long getNumberOfReserva(){
+        return reservaRepository.count();
+    }
+    
+    //------------------------------------------------
+    //            CRUD RESERVA - SERVICIO
+    //------------------------------------------------
     @GetMapping("/servicio/{servicioId}/reserva")
     public Page<Reserva> getAllReservaByservicioId
     (@PathVariable (value = "servicioId") 
@@ -76,17 +85,18 @@ public class ReservaController {
             Reserva.setLlegada(ReservaRequest.getLlegada());
             Reserva.setSalida(ReservaRequest.getSalida());
             Reserva.setPago(ReservaRequest.getPago());
+            Reserva.setUser(ReservaRequest.getUser());
             return reservaRepository.save(Reserva);
         }).orElseThrow(() -> new ResourceNotFoundException("ReservaId " + ReservaId + "not found"));
     }
     
     @DeleteMapping("/servicio/{servicioId}/reserva/{reservaId}")
-    public ResponseEntity<?> deleteReserva(@PathVariable (value = "servicioId") Long servicioId,
-                              @PathVariable (value = "ReservaId") Long ReservaId) {
-        return reservaRepository.findByIdAndServicioId(ReservaId, servicioId).map(Reserva -> {
-            reservaRepository.delete(Reserva);
+    public ResponseEntity<?> deleteReservaxServicio(@PathVariable (value = "servicioId") Long servicioId,
+                              @PathVariable (value = "reservaId") Long reservaId) {
+        return reservaRepository.findByIdAndServicioId(reservaId, servicioId).map(reserva -> {
+            reservaRepository.delete(reserva);
             return ResponseEntity.ok().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Reserva not found with id " + ReservaId + " and servicioId " + servicioId));
+        }).orElseThrow(() -> new ResourceNotFoundException("Reserva not found with id " + reservaId + " and servicioId " + servicioId));
     }
     
     //------------------------------------------------
@@ -133,10 +143,10 @@ public class ReservaController {
     
     @DeleteMapping("/depart/{departId}/reserva/{reservaId}")
     public ResponseEntity<?> deleteReservaxDepart(@PathVariable (value = "departId") Long departId,
-                              @PathVariable (value = "ReservaId") Long ReservaId) {
-        return reservaRepository.findByIdAndDepartId(ReservaId, departId).map(Reserva -> {
-        	reservaRepository.delete(Reserva);
+    @PathVariable (value = "reservaId") Long reservaId) {
+        return reservaRepository.findByIdAndDepartId(reservaId, departId).map(reserva -> {
+        	reservaRepository.delete(reserva);
             return ResponseEntity.ok().build();
-        }).orElseThrow(() -> new ResourceNotFoundException("Reserva not found with id " + ReservaId + " and departId " + departId));
+        }).orElseThrow(() -> new ResourceNotFoundException("Reserva not found with id " + reservaId + " and departId " + departId));
     }
 }

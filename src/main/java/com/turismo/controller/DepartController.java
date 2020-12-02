@@ -20,9 +20,15 @@ import com.turismo.repository.DepartRepository;
 public class DepartController {
 	@Autowired
 	private DepartRepository departRepository;
+	
+	@RequestMapping("/count/depart")
+	private Long getNumberOfDepart(){
+		return departRepository.count();
+	}
 
 	@PostMapping("/depart")
-	public void guardarDepart(@RequestBody Depart dep) {
+	public void guardarDepart
+	(@RequestBody Depart dep) {
 		departRepository.save(dep);
 	}
 	
@@ -32,17 +38,20 @@ public class DepartController {
 	}
 		
 	@GetMapping("depart/{id}")
-	public Optional<Depart> listarById(@PathVariable("id") Long id) {
+	public Optional<Depart> listarById
+	(@PathVariable("id") Long id) {
 		return departRepository.findById(id);
 	}
 	
 	@DeleteMapping("/depart/{id}")
-	public void eliminarDepart(@PathVariable("id") Long id) {
+	public void eliminarDepart
+	(@PathVariable("id") Long id) {
 		departRepository.deleteById(id);
 	}
 	
 	@PutMapping("/depart")
-	public void actualizarDepart(@RequestBody Depart dep) {
+	public void actualizarDepart
+	(@RequestBody Depart dep) {
 		departRepository.save(dep);
 	}
 }

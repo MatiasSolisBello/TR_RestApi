@@ -4,11 +4,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Checkout")
 public class Checkout {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@NotNull
@@ -25,8 +29,10 @@ public class Checkout {
     @Column
 	private String problemas;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "reserva_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Reserva reserva;
 	
 	//---------------------------------------

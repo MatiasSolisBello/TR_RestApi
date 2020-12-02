@@ -6,5 +6,5 @@ import com.turismo.model.User;
 
 
 public interface UserRepository extends JpaRepository<User, Long> {
-
+    Long countById(Long id);
 }
