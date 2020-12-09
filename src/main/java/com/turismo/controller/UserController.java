@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.turismo.model.User;
 import com.turismo.repository.UserRepository;
 
-
-
 @RestController
 @CrossOrigin
 

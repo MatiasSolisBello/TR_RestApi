@@ -1,6 +1,7 @@
 package com.turismo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turismo.model.Checkin;
+import com.turismo.model.Depart;
 import com.turismo.model.Reserva;
 import com.turismo.repository.CheckinRepository;
 import com.turismo.repository.ReservaRepository;
@@ -26,12 +28,23 @@ import com.turismo.repository.ReservaRepository;
 public class CheckinController {
 	@Autowired
 	private CheckinRepository checkinRepository;
-	
 	@Autowired
 	private ReservaRepository reservaRepository;
 	
+    @GetMapping("/checkin")
+    public List<Checkin> listarReserva(){
+        return checkinRepository.findAll();
+    }
     
+    @GetMapping("/checkin/{id}")
+	public Optional<Checkin> listarById
+	(@PathVariable("id") Long id) {
+		return checkinRepository.findById(id);
+	}
     
+    //------------------------------------------------
+    //            CRUD RESERVA - CHECKIN
+    //------------------------------------------------
     @GetMapping("/reserva/{reservaId}/checkin")
     public Page<Checkin> getAllCheckinByReservaId
     (@PathVariable (value = "reservaId") 
@@ -40,10 +53,6 @@ public class CheckinController {
         (reservaId, pageable);
     }
     
-    @GetMapping("/checkin")
-    public List<Checkin> listarReserva(){
-        return checkinRepository.findAll();
-    }
 	
 	@PostMapping("/reserva/{reservaId}/checkin")
     public Checkin addCheckin(@PathVariable Long reservaId,
