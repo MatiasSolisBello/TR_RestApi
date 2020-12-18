@@ -1,10 +1,9 @@
-# Rest Api with Spring Boot (INCONCLUSE)
+# Rest Api with Spring Boot
 
 ## You need instaled
 + Spring ide from [here](https://spring.io/tools)
 
 ## This project include:
-+ CRUD for Api Rest in diferents tables
 
 + User
 
